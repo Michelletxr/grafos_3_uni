@@ -3,15 +3,18 @@ package LoadBalancerTCP;
 import java.io.*;
 
 public abstract class ServerTCP {
+    public String  host;
+    public int port;
 
     public abstract  void startServer() throws IOException, ClassNotFoundException;
     public abstract void stopServer() throws IOException;
 
     public String receivePackage(InputStream input){
+        BufferedReader in = new BufferedReader(new InputStreamReader(input));
         String msg = null;
         try{
-            ObjectInputStream in = new ObjectInputStream(input);
-            msg = (String) in.readObject();
+            msg = in.readLine();
+
         }catch (Exception e){
             System.out.println(e);
         }
@@ -20,13 +23,9 @@ public abstract class ServerTCP {
     }
 
     public void sendPackage(String str, OutputStream output){
-        try {
-            System.out.println("send : " + str);
-            ObjectOutputStream out = new ObjectOutputStream(output);
-            out.writeObject(str);
-            out.flush();
-        }catch (IOException e){
-            System.err.println("ocorreu um erro ao enviar mensagem server:" + e);
-        }
+        PrintWriter out = new PrintWriter(output, true);
+        System.out.println("send : " + str);
+        out.println(str);
+        out.flush();
     }
 }
