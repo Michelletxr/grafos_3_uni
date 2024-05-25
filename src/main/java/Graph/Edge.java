@@ -28,7 +28,7 @@ public class Edge {
 
     public void update_flow(int amount_value) {
         this.flow += amount_value;
-        this.reverse_edge.flow -= amount_value;
+       // this.reverse_edge.flow -= amount_value;
     }
 }
 
