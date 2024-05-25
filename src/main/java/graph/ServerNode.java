@@ -1,4 +1,4 @@
-package Grafh_.Graph;
+package graph;
 
 import java.util.Objects;
 
@@ -21,7 +21,13 @@ public class ServerNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o instanceof ServerNode && ((ServerNode) o).name.equals(this.name);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(name);
     }
 }
+

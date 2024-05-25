@@ -1,4 +1,4 @@
-package LoadBalancerTCP;
+package loadBalancerTCP;
 
 public class Service {
 }

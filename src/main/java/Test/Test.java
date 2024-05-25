@@ -1,12 +1,9 @@
 package Test;
 
-import Graph.ServerNode;
-import Graph.Graph;
-import Graph.*;
+import graph.ServerNode;
+import graph.Graph;
 import algoritms.Algoritms;
 import org.javatuples.Pair;
-
-import static algoritms.Algoritms.minCostMaxFlowPair;
 
 public class Test {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package Graph;
+package graph;
 
 public class Edge {
     // no origem
@@ -22,12 +22,12 @@ public class Edge {
         this.flow = 0;
     }
 
-    public int residualCapacity() {
+    public int getCapacity() {
         return capacity - flow;
     }
 
-    public void update_flow(int amount_value) {
-        this.flow += amount_value;
+    public void update_flow(int value) {
+        this.flow += value;
        // this.reverse_edge.flow -= amount_value;
     }
 }
