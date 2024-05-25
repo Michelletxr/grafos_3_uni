@@ -5,10 +5,12 @@ import graph.Graph;
 import algoritms.Algoritms;
 import org.javatuples.Pair;
 
+import static algoritms.Algoritms.minCostMaxFlowPair;
+
 public class Test {
     public static void main(String[] args) {
        // testCase1();
-        testCase2();
+       // testCase2();
         testCase3();
     }
 
@@ -44,7 +46,7 @@ public class Test {
                 }
         );
 
-        Pair<Integer, Integer> result = Algoritms.minCostMaxFlowPair(graph, source , sink);
+        Pair<Integer, Integer> result = minCostMaxFlowPair(graph, source , sink);
         System.out.println("Test Case 1: " + result);
         assert result.getValue0() == 23 : "Expected max flow 23";
         assert result.getValue1() == 77 : "Expected min cost 77";
@@ -62,38 +64,31 @@ public class Test {
         graph.addEdge(new ServerNode("localhost", 0, "B"), new ServerNode("localhost", 0, "D"), 2, 2);
         graph.addEdge(new ServerNode("localhost", 0, "D"), new ServerNode("localhost", 0, "T"), 3, 1);
         graph.addEdge(new ServerNode("localhost", 0, "C"), new ServerNode("localhost", 0, "T"), 2, 0);
-        Pair<Integer, Integer> result = Algoritms.minCostMaxFlowPair(graph, source , sink);
-        System.out.println("Test Case 1: " + result);
-       // assert result.getValue0() == 23 : "Expected max flow 23";
-      //  assert result.getValue1() == 77 : "Expected min cost 77";
-       /* Graph graph = new Graph();
-        graph.addEdge("A", "B", 10, 5);
-        graph.addEdge("A", "C", 10, 6);
-        graph.addEdge("B", "C", 5, 2);
-        graph.addEdge("B", "D", 10, 4);
-        graph.addEdge("C", "D", 10, 1);
-        graph.addEdge("D", "T", 15, 2);
-
-        Pair<Integer, Integer> result = minCostMaxFlowPair(graph, "A", "T");
+        Pair<Integer, Integer> result = minCostMaxFlowPair(graph, source , sink);
         System.out.println("Test Case 2: " + result);
-        assert result.getKey() == 15 : "Expected max flow 15";
-        assert result.getValue() == 65 : "Expected min cost 65";*/
+        assert result.getValue0() == 23 : "Expected max flow 23";
+        assert result.getValue1() == 77 : "Expected min cost 77";
+
+
     }
 
     static void testCase3() {
-       /* Graph graph = new Graph();
-        graph.addEdge("S", "A", 8, 1);
-        graph.addEdge("S", "B", 5, 2);
-        graph.addEdge("A", "B", 3, 2);
-        graph.addEdge("A", "C", 4, 3);
-        graph.addEdge("B", "C", 5, 1);
-        graph.addEdge("B", "D", 2, 3);
-        graph.addEdge("C", "T", 6, 2);
-        graph.addEdge("D", "T", 4, 1);
+        String source = "1";
+        String sink = "4";
+        Graph graph = new Graph();
+        graph.addEdge(new ServerNode("localhost", 0, "1"), new ServerNode("localhost", 0, "2"), 16, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "2"), new ServerNode("localhost", 0, "3"), 12, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "3"), new ServerNode("localhost", 0, "4"), 20, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "1"), new ServerNode("localhost", 0, "5"), 13, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "5"), new ServerNode("localhost", 0, "2"), 4, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "5"), new ServerNode("localhost", 0, "6"), 14, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "3"), new ServerNode("localhost", 0, "5"), 9, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "6"), new ServerNode("localhost", 0, "3"), 7, 0);
+        graph.addEdge(new ServerNode("localhost", 0, "6"), new ServerNode("localhost", 0, "4"), 4, 0);
 
-        Pair<Integer, Integer> result = minCostMaxFlowPair(graph, "S", "T");
+        Pair<Integer, Integer> result = minCostMaxFlowPair(graph, "1", "4");
         System.out.println("Test Case 3: " + result);
-        assert result.getKey() == 10 : "Expected max flow 10";
-        assert result.getValue() == 34 : "Expected min cost 34";*/
     }
+
+
 }

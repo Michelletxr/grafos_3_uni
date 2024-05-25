@@ -24,22 +24,32 @@ public interface Algoritms {
         while (!pq.isEmpty()) {
             Pair<String, Integer> current = pq.poll();
             //System.out.println(current);
-            int cost = current.getValue1();
             String node_curr = current.getValue0();
-            System.out.println("custo | node " + cost  + " | " + node_curr);
-            //System.out.println(" dist " + dist.get(node_curr).);
-            // verificar esse trecho
-            if (cost > dist_min.get(node_curr)) continue;
+            int cost_curr = current.getValue1();
+            System.out.println("custo | node " + cost_curr  + " | " + node_curr);
+
+            /* verifica se o custo para chegar ao nó atual
+             é maior que o custo já calculado para a distância até esse nó */
+            if (cost_curr > dist_min.get(node_curr)) continue;
+
+            // verifica as arestas adjacentes ao nó
             for (Edge e : graph.adj_edges.get(node_curr)) {
                 //System.out.println(" capacity  " + e.residualCapacity());
+                //verifica se a aresta possuo capacidade para aumento de fluxo
                 if (e.getCapacity() > 0) {
+                    //realiza o calculo para o costo do nó seguinte
+                    // custo  para chegar até o nó atual + o custo da aresta que leva até o nó seguinte
                     int cost_ = e.cost + dist_min.get(node_curr);
+                    //caso esse custo sejá menor que o custo já existente para chegar até o nó seguinte
                     if (cost_ < dist_min.get(e.to)) {
+                        //atualiza o custo para chegar até o nó seguinte
                         dist_min.put(e.to, cost_);
+                        //adiciona a aresta ao caminho de aumento
                         path.put(e.to, e);
                         pq.add(new Pair<>(e.to, dist_min.get(e.to)));
                     }
                 }
+
             }
         }
          /*Retorna true se foi encontrado um caminho de source a sink
