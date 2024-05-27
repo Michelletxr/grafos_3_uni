@@ -1,12 +1,13 @@
 package algoritms;
 
 import graph.*;
+import graph.node.Node;
 
 import java.util.*;
 
 public interface Utils {
     // Retorna verdadeiro se houver um caminho do vértice de origem 's' ao vértice de destino 't'
-    static boolean bfs_path(Graph graph, String source, String sink, Map<String, String> path) {
+    static boolean bfs_path(GraphV1 graphV1, String source, String sink, Map<String, String> path) {
         Set<String> visited = new HashSet<>();
         Queue<String> queue = new LinkedList<>();
         queue.add(source);
@@ -16,8 +17,8 @@ public interface Utils {
         while (!queue.isEmpty()) {
             String u = queue.poll();
 
-            for (ServerNode v : graph.adjacencyNodes.get(graph.getServerNode(u).name)) {
-                if (!visited.contains(v.name) && graph.getEdgeCapacity(u, v.name) > 0) {
+            for (ServerNode v : graphV1.adjacencyNodes.get(graphV1.getServerNode(u).name)) {
+                if (!visited.contains(v.name) && graphV1.getEdgeCapacity(u, v.name) > 0) {
                     queue.add(v.name);
                     visited.add(v.name);
                     path.put(v.name, u);
@@ -32,14 +33,15 @@ public interface Utils {
         return false;
     }
 
-    static void printPath(Map<String, Edge> prev_path, ServerNode sink) {
-        List<String> path = new ArrayList<>();
-        for (Edge e = prev_path.get(sink.name); e != null; e = prev_path.get(e.from)) {
+    static void printPath(Map<Integer, Edge> prev_path, Node sink) {
+        List<Integer> path = new ArrayList<>();
+        for (Edge e = prev_path.get(sink.id); e != null; e = prev_path.get(e.from)) {
             path.add(e.from);
         }
         Collections.reverse(path);
-        path.add(sink.name);
-        System.out.println("Caminho de aumento: " + String.join(" -> ", path));
+        path.add(sink.id);
+        System.out.println("Caminho de aumento: " + String.join(" -> ", path.stream().toString()));
+        //adaptar classes de algoritmos para nova estrutura
     }
 
 }

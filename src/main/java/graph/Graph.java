@@ -1,61 +1,30 @@
 package graph;
 
+import graph.node.Node;
+
 import java.util.*;
 
 public class Graph {
-
-    public final Set<ServerNode> nodes = new HashSet<>();
-    public final Map<String, Set<ServerNode>> adjacencyNodes = new HashMap<>();
-
+    public final Set<Node> nodes = new HashSet<>();
+    public final Map<Integer, Set<Node>> adjacencyNodes = new HashMap<>();
     public final Set<Edge> edges = new HashSet<>();
-    public Map<String, Set<Edge>> adj_edges = new HashMap<>();
-
-    public Map<String, Integer> potential = new HashMap<>();
-
+    public Map<Integer, Set<Edge>> adj_edges = new HashMap<>();
+    public int total_cost = 0;
     public int total_nodes = 0;
     public int total_edges = 0;
+    public int total_flow=0;
 
-    public void addServerNode(ServerNode server) {
-        potential.put(server.name, 0);
-
-        nodes.add(server);
-
-        adjacencyNodes.put(server.name, new HashSet<>());
-        adj_edges.put(server.name, new HashSet<>());
-
-
-        this.total_nodes++;
+    public void updateFlowCapacityEdge(Integer source, Integer destination, int newflow){
+        edges.forEach(edge -> {
+            if (edge.from.equals(source) && edge.to.equals(destination)) {
+                edge.flow+=newflow;
+                edge.capacity-=newflow;
+                this.total_flow+=newflow;
+            }
+        });
     }
 
-    public void addEdge(ServerNode source, ServerNode destination, Integer capacity, Integer cost) {
-        //verifica se nos existem no grafo
-        if(!nodes.contains(source)) {
-            addServerNode(source);
-        }
-        if(!nodes.contains(destination)) {
-            addServerNode(destination);
-        }
-
-        // Cria nova aresta
-        Edge newEdge = new Edge(source.name, destination.name, capacity, cost);
-        // Atualiza arestas do grafo
-        edges.add(newEdge);
-        // Atualiza arestas adjacentes do nó source
-        Set<Edge> up_adj_edges = adj_edges.get(source.name);
-        up_adj_edges.add(newEdge);
-        adj_edges.put(source.name, up_adj_edges);
-
-        // Atualiza nós adjacentes do nó source e do nó destination
-        adjacencyNodes.get(source.name).add(destination);
-        adjacencyNodes.get(destination.name).add(source);
-        total_edges++;
-    }
-
-    public ServerNode getServerNode(String nodeName) {
-        return nodes.stream().filter(n -> n.name.equals(nodeName)).findFirst().orElse(null);
-    }
-
-    public Edge getEdge(String source, String destination) {
+    public Edge getEdge(Integer source, Integer destination) {
         for (Edge edge : edges) {
             if (edge.from.equals(source) && edge.to.equals(destination)) {
                 return edge;
@@ -63,26 +32,53 @@ public class Graph {
         }
         return null;
     }
-
-    public Set<String> getNameServersNodes() {
-        return adjacencyNodes.keySet();
+    public Collection<Node> getAdjacencyNodes(Integer id) {
+        return adjacencyNodes.get(id);
     }
 
-    public int getEdgeCapacity(String source, String destination) {
+    public Collection<Edge> getEdges() {
+        return edges;
+    }
+    public List<Integer> getNodesKeys(){
+        List<Integer> keys = new ArrayList<>();
+        nodes.stream().forEach(node -> {keys.add(node.id);});
+        return keys;
+    }
 
-        for (Edge edge : edges) {
-            if (edge.from.equals(source) && edge.to.equals(destination)) {
-                return edge.capacity;
-            }
+    public Collection<Edge> getAdj_edges(Integer id) {
+        return adj_edges.get(id);
+    }
+
+    public void addEdge(Node source, Node destination, Integer capacity, Integer cost) {
+
+        //verifica se nos existem no grafo
+        if(!nodes.contains(source)) {
+            addNode(source);
+            adj_edges.put(source.id, new HashSet<>());
         }
-        return 0;
+        if(!nodes.contains(destination)) {
+            addNode(destination);
+            adj_edges.put(destination.id, new HashSet<>());
+        }
+
+        // Cria nova aresta
+        Edge newEdge = new Edge(source.id, destination.id, capacity, cost);
+        // Atualiza arestas do grafo
+        edges.add(newEdge);
+        // Atualiza arestas adjacentes do nó source
+        Set<Edge> up_adj_edges = adj_edges.get(source.id);
+        up_adj_edges.add(newEdge);
+        adj_edges.put(source.id, up_adj_edges);
+        // Atualiza nós adjacentes do nó source e do nó destination
+        adjacencyNodes.get(source.id).add(destination);
+        adjacencyNodes.get(destination.id).add(source);
+        total_edges=edges.size();
     }
 
-    public void updateEdgeCapacity(String source, String destination, int newCapacity) {
-        edges.forEach(edge -> {
-            if (edge.from.equals(source) && edge.to.equals(destination)) {
-                edge.capacity = newCapacity;
-            }
-        });
+    private void addNode(Node node) {
+        nodes.add(node);
+        adjacencyNodes.put(node.id, new HashSet<>());
+        this.total_nodes=nodes.size();
     }
+
 }

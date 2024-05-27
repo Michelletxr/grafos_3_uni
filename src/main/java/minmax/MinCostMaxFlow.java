@@ -2,6 +2,8 @@ package minmax;
 
 // Java Program to implement
 // the above approach
+import graph.ServerNode;
+
 import java.util.*;
 
 public class MinCostMaxFlow {
@@ -171,19 +173,29 @@ public class MinCostMaxFlow {
         // Creating an object flow
         MinCostMaxFlow flow = new MinCostMaxFlow();
 
+
+
+        int N = 6; // Número de nós (0 a 5)
         int s = 0, t = 4;
 
-        int cap[][] = { { 0, 3, 1, 0, 3 },
-                { 0, 0, 2, 0, 0 },
-                { 0, 0, 0, 1, 6 },
-                { 0, 0, 0, 0, 2 },
-                { 0, 0, 0, 0, 0 } };
+        int[][] cap = {
+                { 0, 5, 0,  0,  0, 0},// A
+                { 0,  0, 2, 0, 0, 0},// B
+                { 0,  0,  0,  3, 0,  6},// C
+                { 0,  0,  0,  0,  7, 0 },// D
+                { 0,  0,  0,  0,  0,  0 },// E
+                { 0,  0,  0,  0,  5,  0 } // T
+        };
 
-        int cost[][] = { { 0, 1, 0, 0, 2 },
-                { 0, 0, 0, 3, 0 },
-                { 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 1 },
-                { 0, 0, 0, 0, 0 } };
+        int[][] cost = {
+                { 0, 1, 0,  0,  0, 0},// A
+                { 0,  0, 4, 0, 0, 0},// B
+                { 0,  0,  0,  2, 0,  1},// C
+                { 0,  0,  0,  0,  3, 0 },// D
+                { 0,  0,  0,  0,  0,  0 },// E
+                { 0,  0,  0,  0,  2,  0 } //T
+        };
+
 
         flow.N = cap.length;
         flow.flow = new int[flow.N][flow.N];

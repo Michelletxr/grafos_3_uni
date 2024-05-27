@@ -2,9 +2,10 @@ package graph;
 
 public class Edge {
     // no origem
-    public String from;
+    public Integer from;
     // no destino
-    public String to;
+    public Integer to;
+
     // capacidade da aresta
     public int capacity;
     // custo para usar a aresta
@@ -14,7 +15,7 @@ public class Edge {
     //aresta inversa
     public Edge reverse_edge;
 
-    public Edge(String from, String to, int capacity, int cost) {
+    public Edge(int from, int to, int capacity, int cost) {
         this.from = from;
         this.to = to;
         this.capacity = capacity;
