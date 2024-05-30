@@ -1,0 +1,23 @@
+{
+  "clients": [
+    {"id": 1, "total_requests": 10, "name": "A"},
+    {"id": 2, "total_requests": 15, "name": "B"},
+    {"id": 3, "total_requests": 20, "name": "C"}
+  ],
+  "servers": [
+    {"id": 4, "name": "SA", "totalRequests": 5, "timeResponse": 5, "port": 8089},
+    {"id": 5, "name": "SB", "totalRequests": 10, "timeResponse": 15, "port": 8088},
+    {"id": 6, "name": "SC", "totalRequests": 15, "timeResponse": 5, "port": 8087}
+  ],
+  "edges": [
+    {"from": "source", "to": "A", "capacity": 10, "cost": 0},
+    {"from": "source", "to": "B", "capacity": 15, "cost": 0},
+    {"from": "source", "to": "C", "capacity": 20, "cost": 0},
+    {"from": "A", "to": "SA", "capacity": 5, "cost": 5},
+    {"from": "B", "to": "SB", "capacity": 10, "cost": 15},
+    {"from": "C", "to": "SC", "capacity": 15, "cost": 5},
+    {"from": "SA", "to": "DB", "capacity": 100, "cost": 10},
+    {"from": "SB", "to": "DB", "capacity": 100, "cost": 10},
+    {"from": "SC", "to": "DB", "capacity": 100, "cost": 10}
+  ]
+}

@@ -1,4 +1,4 @@
-package graph;
+package network.graph;
 
 public class Edge {
     // no origem

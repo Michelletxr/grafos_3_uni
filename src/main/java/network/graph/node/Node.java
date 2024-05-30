@@ -1,11 +1,13 @@
-package graph.node;
+package network.graph.node;
 
 public abstract class Node {
 
     public int id;
+    public String name;
 
-    public Node(int id) {
+    public Node(int id, String name) {
         this.id = id;
+        this.name = name;
     }
 
     @Override

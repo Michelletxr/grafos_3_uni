@@ -1,6 +1,6 @@
-package graph;
+package network.graph;
 
-import graph.node.Node;
+import network.graph.node.Node;
 
 import java.util.*;
 
@@ -14,11 +14,10 @@ public class Graph {
     public int total_edges = 0;
     public int total_flow=0;
 
-    public void updateFlowCapacityEdge(Integer source, Integer destination, int newflow){
+    public void updateFlowEdge(Integer source, Integer destination, int newflow){
         edges.forEach(edge -> {
             if (edge.from.equals(source) && edge.to.equals(destination)) {
-                edge.flow+=newflow;
-                edge.capacity-=newflow;
+                edge.update_flow(newflow);
                 this.total_flow+=newflow;
             }
         });
@@ -45,6 +44,16 @@ public class Graph {
         return keys;
     }
 
+    public Node getNode(int id) {
+        Node node = null;
+        for (Node n : nodes) {
+            if (n.id==id){
+                node = n;
+            }
+        }
+        return node;
+    }
+
     public Collection<Edge> getAdj_edges(Integer id) {
         return adj_edges.get(id);
     }
@@ -52,13 +61,16 @@ public class Graph {
     public void addEdge(Node source, Node destination, Integer capacity, Integer cost) {
 
         //verifica se nos existem no grafo
-        if(!nodes.contains(source)) {
-            addNode(source);
+        if(Objects.isNull(adj_edges.get(source.id))) {
+            // addNode(source);
             adj_edges.put(source.id, new HashSet<>());
+            adjacencyNodes.put(source.id, new HashSet<>());
         }
-        if(!nodes.contains(destination)) {
-            addNode(destination);
-            adj_edges.put(destination.id, new HashSet<>());
+
+        if(Objects.isNull(adj_edges.get(destination.id))) {
+            // addNode(destination);
+             adj_edges.put(destination.id, new HashSet<>());
+             adjacencyNodes.put(destination.id, new HashSet<>());
         }
 
         // Cria nova aresta
@@ -75,10 +87,17 @@ public class Graph {
         total_edges=edges.size();
     }
 
-    private void addNode(Node node) {
+    public void addNode(Node node) {
         nodes.add(node);
-        adjacencyNodes.put(node.id, new HashSet<>());
         this.total_nodes=nodes.size();
     }
 
+    public Node getNodeByName(String name) {
+        for (Node node : nodes) {
+            if(Objects.equals(node.name, name)){
+                return node;
+            }
+        }
+        return null;
+    }
 }
