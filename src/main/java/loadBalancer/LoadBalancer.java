@@ -101,6 +101,7 @@ public class LoadBalancer {
     // método para definir servidor baseado no  fluxo
     public Integer getServerId(String clienName) {
         Integer serviceId = 0;
+        System.out.println(clienName);
         Node nodeClient = network.getNodeByName(clienName);
         Set<Edge> edges = network.adj_edges.get(nodeClient.id);
         for (Edge edge : edges) {
