@@ -21,7 +21,6 @@ import static network.algoritms.Algoritms.minCostMaxFlowWithBF;
 public interface Network {
     List<ClientNode> clients = new ArrayList<>();
     List<ServerNode> servers = new ArrayList<>();
-    //List<String> clientNames = new ArrayList<>(Arrays.asList("A", "B", "C"));
 
     public static Graph createNetoworkFromFile(String filename) throws IOException, FileNotFoundException {
         Graph graph = new Graph();
@@ -62,10 +61,10 @@ public interface Network {
             }
 
             // Add source and databaseSink nodes
-            int databaseId = graph.nodes.size();
             source = new SourceNode(0);
-            databaseSink = new DatabaseNode(databaseId, 100, 100);
             graph.addNode(source);
+            int databaseId = graph.nodes.size();
+            databaseSink = new DatabaseNode(databaseId, 100, 100);
             graph.addNode(databaseSink);
 
             // Parse edges

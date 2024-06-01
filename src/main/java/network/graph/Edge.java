@@ -5,7 +5,6 @@ public class Edge {
     public Integer from;
     // no destino
     public Integer to;
-
     // capacidade da aresta
     public int capacity;
     // custo para usar a aresta

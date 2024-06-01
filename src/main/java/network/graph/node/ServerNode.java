@@ -1,6 +1,8 @@
 package network.graph.node;
 
+import loadBalancer.LoadBalancer;
 import network.Utils;
+import org.jfree.data.time.Millisecond;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +20,7 @@ public class ServerNode extends Node {
     public int port;
     public int totalRequests = 0;
     private String data;
+    private LoadBalancer loadBalancer = new LoadBalancer();
 
     public ServerNode(int id, String name, int totalRequests, int timeResponse, int port) {
         super(id, name);
@@ -25,6 +28,10 @@ public class ServerNode extends Node {
         this.name = name;
         this.timeResponse = timeResponse;
         this.totalRequests = totalRequests;
+    }
+
+    public ServerNode() {
+        super(-1, "");
     }
 
     @Override
@@ -51,10 +58,12 @@ public class ServerNode extends Node {
                      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
                         String request = in.readLine();
                         Utils.logInfo(this.name , "received request: " + request);
-                        //Thread.sleep(10000);
-                        out.println(name + "response to " + request);
+                        int millisecond = timeResponse*100000;
+                        Thread.sleep(millisecond);
+                        out.println(name + " response to " + request);
                         sendDataToSave(request);
-                        //fechar conexão
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         } catch (IOException e) {
@@ -64,33 +73,24 @@ public class ServerNode extends Node {
 
     public void sendDataToSave(String request){
         Utils.logInfo(this.name , "send data to database................");
-        try (Socket socket = new Socket(lb_host, 8080);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-            String serviceRequest = this.name;
-            out.println(serviceRequest);
-            String response = in.readLine();
-            //System.out.println("Load Balancer response: " + response);
-
-            // Connect to the redirected server
-            if (response.startsWith("Connect to database_server: ")) {
-                String[] serverInfo = response.substring("Connect to server: ".length()).split(":");
-                //System.out.println("try connect " + serverInfo[0]);
-                String database_host = "localhost";
-                int database_port = Integer.parseInt(serverInfo[0]);
-
-                try (Socket serverSocket = new Socket(database_host, database_port);
-                     BufferedReader serverIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-                     PrintWriter serverOut = new PrintWriter(serverSocket.getOutputStream(), true)) {
-                        serverOut.println(request);
-                        socket.close();
-                     }
-
-            }
-            Utils.logInfo(this.name, "Dado enviado para database!");
+        try {
+            loadBalancer.processingDataInDatabase(this.name, request);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        Utils.logInfo(this.name, "Dado enviado para database!");
+    }
+
+    public void startConn(LoadBalancer loadBalancer){
+        this.loadBalancer = loadBalancer;
+
+    }
+
+    public String receiveRequest(String request) throws InterruptedException {
+        Utils.logInfo(this.name , "received request: " + request);
+        String response = name + " response to " + request;
+        sendDataToSave(request);
+        return response;
     }
 
 ;
