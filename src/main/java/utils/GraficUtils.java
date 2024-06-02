@@ -13,7 +13,8 @@ import java.util.Arrays;
 
 
 public interface GraficUtils {
-    private static void readData(String fileName, String clientName, DefaultCategoryDataset dataset) {
+    private static DefaultCategoryDataset readData(String fileName) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -28,18 +29,19 @@ public interface GraficUtils {
                         .average()
                         .orElse(0.0);
 
-                dataset.addValue(averageResponseTime, clientName, totalRequestsStr);
+                dataset.addValue(averageResponseTime, "Tempo de Resposta Médio", totalRequestsStr);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return dataset;
     }
 
-    private static JFreeChart createChart(DefaultCategoryDataset dataset) {
+    private static JFreeChart createChart(DefaultCategoryDataset dataset, String clienteName) {
         return ChartFactory.createLineChart(
-                "Gráfico de Linha",
-                "Total Requests",
-                "Response Time",
+                "Cliente " + clienteName,
+                "Total de Requisições",
+                "Tempo de Resposta",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -49,21 +51,13 @@ public interface GraficUtils {
     }
 
     public static void main(String[] args) {
-        
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        String fileNameA = "src/main/resources/client_C.txt";
-        readData(fileNameA, "Cliente A", dataset);
-        String fileNameB = "src/main/resources/client_C_rb.txt";
-        readData(fileNameB, "Cliente B", dataset);
-
-
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Comparação de Desempenho de Microsserviços");
+            String clienteName = "B";
+            JFrame frame = new JFrame("Gráfico de Linha");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new ChartPanel(createChart(dataset)));
+            frame.add(new ChartPanel(createChart(readData("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/client_"+clienteName+".txt"), clienteName)));
             frame.pack();
             frame.setVisible(true);
         });
-
     }
 }
