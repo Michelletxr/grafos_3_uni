@@ -16,15 +16,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PerformanceComparisonGrafico {
+public interface PerformanceComparisonGrafico {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-       // System.out.println("Digite o nome do arquivo contendo os dados do Cliente A:");
         String fileNameA = "src/main/resources/client_C.txt";
 
-       // System.out.println("Digite o nome do arquivo contendo os dados do Cliente B:");
         String fileNameB ="src/main/resources/client_C_rb.txt";
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
