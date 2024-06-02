@@ -2,10 +2,13 @@ package utils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -38,7 +41,7 @@ public interface GraficUtils {
     }
 
     private static JFreeChart createChart(DefaultCategoryDataset dataset, String clienteName) {
-        return ChartFactory.createLineChart(
+        JFreeChart chart = ChartFactory.createLineChart(
                 "Cliente " + clienteName,
                 "Total de Requisições",
                 "Tempo de Resposta",
@@ -48,11 +51,20 @@ public interface GraficUtils {
                 true,
                 false
         );
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+
+        // Define as cores das linhas
+        renderer.setSeriesPaint(0, Color.MAGENTA);
+        plot.setRenderer(renderer);
+
+        return chart;
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            String clienteName = "B";
+            String clienteName = "A";
             JFrame frame = new JFrame("Gráfico de Linha");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(new ChartPanel(createChart(readData("src/main/resources/client_"+clienteName+".txt"), clienteName)));

@@ -3,10 +3,13 @@ package utils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,15 +22,15 @@ public class PerformanceComparisonGrafico {
         Scanner scanner = new Scanner(System.in);
 
        // System.out.println("Digite o nome do arquivo contendo os dados do Cliente A:");
-        String fileNameA = "src/main/resources/client_A.txt";
+        String fileNameA = "src/main/resources/client_C.txt";
 
        // System.out.println("Digite o nome do arquivo contendo os dados do Cliente B:");
-        String fileNameB ="src/main/resources/client_A_rb.txt";
+        String fileNameB ="src/main/resources/client_C_rb.txt";
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        readData(fileNameA, "Cliente A", dataset);
-        readData(fileNameB, "Cliente B", dataset);
+        readData(fileNameA, "MinCost-MaxFlow", dataset);
+        readData(fileNameB, "Round-Robin", dataset);
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Comparação de Desempenho de Microsserviços");
@@ -61,7 +64,7 @@ public class PerformanceComparisonGrafico {
     }
 
     private static JFreeChart createChart(DefaultCategoryDataset dataset) {
-        return ChartFactory.createLineChart(
+        JFreeChart chart = ChartFactory.createLineChart(
                 "Comparação de Desempenho de Microsserviços",
                 "Total de Requisições",
                 "Tempo de Resposta Médio (ms)",
@@ -71,6 +74,16 @@ public class PerformanceComparisonGrafico {
                 true,
                 false
         );
+        CategoryPlot plot = chart.getCategoryPlot();
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+
+        // Define as cores das linhas
+        renderer.setSeriesPaint(0, Color.red);
+        renderer.setSeriesPaint(1, Color.blue);
+
+        plot.setRenderer(renderer);
+
+        return chart;
     }
 }
 
