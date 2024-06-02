@@ -47,9 +47,8 @@ public class DatabaseNode extends Node {
     }
 
     public static void main() throws IOException {
-        String fileName = FileUtils.getFileName();
-        //String fileName = "network_1";
-        Graph graph =  Network.createNetoworkFromFile("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/"+fileName+".json");
+        String index = FileUtils.getFileName();
+        Graph graph =  Network.createNetoworkFromFile("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/network_"+index+".json");
         DatabaseNode databaseNode = (DatabaseNode) graph.getNodeByName("DB");
         databaseNode.start();
     }

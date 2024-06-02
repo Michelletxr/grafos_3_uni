@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainClient {
-    public  static boolean is_rb = true;
+    public  static boolean is_rb = false;
     public static void testClienA(){
         String file_name;
         if(is_rb) file_name = "client_A_rb"; else file_name =  "client_A";
@@ -21,7 +21,7 @@ public class MainClient {
             clientNode.start();
             long endTime = System.currentTimeMillis(); // Marca o fim do tempo
             long duration = endTime - startTime; // Calcula a duração
-            time_response.add(duration); // Adiciona a duração à lista
+            time_response.add(duration*1000); // Adiciona a duração à lista
            if(clientNode.stopped){
                break;
            }
@@ -47,7 +47,7 @@ public class MainClient {
             clientNode.start();
             long endTime = System.currentTimeMillis(); // Marca o fim do tempo
             long duration = endTime - startTime; // Calcula a duração
-            time_response.add(duration); // Adiciona a duração à lista
+            time_response.add(duration*1000); // Adiciona a duração à lista
 
             if(clientNode.stopped){
                 break;
@@ -74,7 +74,7 @@ public class MainClient {
             clientNode.start();
             long endTime = System.currentTimeMillis(); // Marca o fim do tempo
             long duration = endTime - startTime; // Calcula a duração
-            time_response.add(duration); // Adiciona a duração à lista
+            time_response.add(duration*1000); // Adiciona a duração à lista
 
             if(clientNode.stopped){
                 break;
@@ -89,8 +89,8 @@ public class MainClient {
 
     public static void main(String[] args) {
         testClienA();
-        testClienB();
-        testClienC();
+        //testClienB();
+        //testClienC();
     }
 
 }

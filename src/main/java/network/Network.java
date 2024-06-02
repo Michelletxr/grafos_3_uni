@@ -96,7 +96,7 @@ public interface Network {
 
     public static void main(String[] args) {
         try {
-            createNetoworkFromFile("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/network.json");
+            createNetoworkFromFile("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/network_0.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

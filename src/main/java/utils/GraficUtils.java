@@ -13,8 +13,7 @@ import java.util.Arrays;
 
 
 public interface GraficUtils {
-    private static DefaultCategoryDataset readData(String fileName) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    private static void readData(String fileName, String clientName, DefaultCategoryDataset dataset) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -29,12 +28,11 @@ public interface GraficUtils {
                         .average()
                         .orElse(0.0);
 
-                dataset.addValue(averageResponseTime, "Tempo de Resposta Médio", totalRequestsStr);
+                dataset.addValue(averageResponseTime, clientName, totalRequestsStr);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dataset;
     }
 
     private static JFreeChart createChart(DefaultCategoryDataset dataset) {
@@ -51,12 +49,21 @@ public interface GraficUtils {
     }
 
     public static void main(String[] args) {
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String fileNameA = "src/main/resources/client_C.txt";
+        readData(fileNameA, "Cliente A", dataset);
+        String fileNameB = "src/main/resources/client_C_rb.txt";
+        readData(fileNameB, "Cliente B", dataset);
+
+
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Gráfico de Linha");
+            JFrame frame = new JFrame("Comparação de Desempenho de Microsserviços");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new ChartPanel(createChart(readData("/home/smart-retail/Documentos/grafo/grafos_3_uni/src/main/resources/client_C.txt"))));
+            frame.add(new ChartPanel(createChart(dataset)));
             frame.pack();
             frame.setVisible(true);
         });
+
     }
 }

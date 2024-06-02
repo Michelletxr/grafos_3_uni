@@ -5,8 +5,8 @@
     {"id": 3, "total_requests": 200, "name": "C"}
   ],
   "servers": [
-    {"id": 4, "name": "SA_0", "totalRequests": 25, "timeResponse": 100, "port": 8089},
-    {"id": 5, "name": "SA_1", "totalRequests": 25, "timeResponse": 6, "port": 8090},
+    {"id": 4, "name": "SA_0", "totalRequests": 50, "timeResponse": 100, "port": 8089},
+    {"id": 5, "name": "SA_1", "totalRequests": 90, "timeResponse": 6, "port": 8090},
     {"id": 6, "name": "SA_2", "totalRequests": 15, "timeResponse": 7, "port": 8091},
     {"id": 7, "name": "SB_0", "totalRequests": 40, "timeResponse": 70, "port": 8088},
     {"id": 8, "name": "SB_1", "totalRequests": 20, "timeResponse": 16, "port": 8092},

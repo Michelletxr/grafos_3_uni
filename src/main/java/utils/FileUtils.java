@@ -9,7 +9,7 @@ public interface FileUtils {
 
     public static String getFileName(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite o nome do arquivo contendo os dados:");
+        System.out.println("Digite o cenário do arquivo contendo os dados:");
         String fileName = scanner.nextLine();
         return fileName;
     }

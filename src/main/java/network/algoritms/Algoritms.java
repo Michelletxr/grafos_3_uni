@@ -56,7 +56,6 @@ public interface Algoritms {
     }
 
     public static boolean bellmanFord(Graph graph, int cost[][], int s, int t, int parent[], int dist[]) {
-
         Arrays.fill(dist, Integer.MAX_VALUE);
         int V = graph.total_nodes;
         dist[s] = 0;
@@ -68,7 +67,6 @@ public interface Algoritms {
         parent[s] = -1;
 
         while (!queue.isEmpty()) {
-
             int u = queue.poll();
             inQueue[u] = false;
             for (Edge e : graph.adj_edges.get(u)) {
@@ -86,17 +84,12 @@ public interface Algoritms {
         }
         return dist[t] != Integer.MAX_VALUE;
     }
+
+
     public static int[] minCostMaxFlowWithBF(Graph graph, int cost[][], int s, int t) {
         int max_flow = 0, min_cost = 0;
         int u, v;
         Graph rGraph = graph;
-
-        // Cria um grafo residual e preenche o grafo residual com as capacidades
-        // originais do grafo dado como entrada na capacidade residual
-        //int rGraph[][] = new int[V][V];
-        //for (u = 0; u < V; u++)
-           // for (v = 0; v < V; v++)
-               // rGraph[u][v] = network.graph[u][v];
 
         // Este array é preenchido por Bellman-Ford e para armazenar o caminho
         int V = rGraph.total_nodes;
@@ -105,15 +98,11 @@ public interface Algoritms {
 
         // Aumenta o fluxo enquanto houver um caminho da fonte para o sumidouro
         while (bellmanFord(rGraph, cost, s, t, parent, dist)) {
-
             // Encontra a capacidade residual mínima das arestas ao longo do
             // caminho preenchido por Bellman-Ford
-
             int path_flow = Integer.MAX_VALUE;
-
             for (v = t; v != s; v = parent[v]) {
                 u = parent[v];
-              //  System.out.println("parente" + u);
                 path_flow = Math.min(path_flow, rGraph.getEdge(u, v).capacity);
             }
 
@@ -121,12 +110,9 @@ public interface Algoritms {
             // arestas reversas ao longo do caminho
             for (v = t; v != s; v = parent[v]) {
                 u = parent[v];
-
                 rGraph.updateFlowEdge(u, v, path_flow);
-                //network.graph.updateFlowCapacityEdge(v, u, -path_flow);
                 min_cost += path_flow * rGraph.getEdge(u,v).cost;
             }
-
 
             // Adiciona o fluxo do caminho ao fluxo total
             max_flow += path_flow;
@@ -134,6 +120,8 @@ public interface Algoritms {
 
         return new int[]{max_flow, min_cost};
     }
+
+
 
     static Pair<Integer, Integer> minCostMaxFlowWithDJ(Graph graph, Integer source, Integer sink) {
         Integer maxFlow = 0;

@@ -71,6 +71,7 @@ public class LoadBalancer {
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             String clientName = in.readLine();
             Integer serviceId = null;
+            Utils.logInfo("LB","Recebendo requisição do cliente: :  " + clientName);
 
             if(test_minMax){
                 serviceId = getServerId(clientName);
@@ -101,7 +102,6 @@ public class LoadBalancer {
     // método para definir servidor baseado no  fluxo
     public Integer getServerId(String clienName) {
         Integer serviceId = 0;
-        System.out.println(clienName);
         Node nodeClient = network.getNodeByName(clienName);
         Set<Edge> edges = network.adj_edges.get(nodeClient.id);
         for (Edge edge : edges) {
@@ -126,7 +126,7 @@ public class LoadBalancer {
                 for(ServerNode serverNode : value){
                     if(serverNode.totalRequests > 0){
                         serverNode.totalRequests-=1;
-                        clientNode.total_requests-=-1;
+                        clientNode.total_requests-=1;
                         System.out.println(clientNode.total_requests);
                         serviceId.set(serverNode.id);
                         break;

@@ -1,0 +1,50 @@
+{
+  "clients": [
+    {"id": 1, "total_requests": 700, "name": "A"},
+    {"id": 2, "total_requests": 450, "name": "B"},
+    {"id": 3, "total_requests": 500, "name": "C"}
+  ],
+  "servers": [
+    {"id": 4, "name": "SA_0", "totalRequests": 50, "timeResponse": 80, "port": 8089},
+    {"id": 5, "name": "SA_1", "totalRequests": 100, "timeResponse": 60, "port": 8090},
+    {"id": 6, "name": "SA_2", "totalRequests": 350, "timeResponse": 50, "port": 8091},
+    {"id": 7, "name": "SA_3", "totalRequests": 200, "timeResponse": 80, "port": 8092},
+    {"id": 8, "name": "SB_0", "totalRequests": 100, "timeResponse": 160, "port": 8088},
+    {"id": 9, "name": "SB_1", "totalRequests": 200, "timeResponse": 150, "port": 8093},
+    {"id": 10, "name": "SB_2", "totalRequests": 300, "timeResponse": 170, "port": 8094},
+    {"id": 11, "name": "SB_3", "totalRequests": 400, "timeResponse": 180, "port": 8095},
+    {"id": 12, "name": "SC_0", "totalRequests": 150, "timeResponse": 60, "port": 8087},
+    {"id": 13, "name": "SC_1", "totalRequests": 250, "timeResponse": 70, "port": 8096},
+    {"id": 14, "name": "SC_2", "totalRequests": 350, "timeResponse": 60, "port": 8097},
+    {"id": 15, "name": "SC_3", "totalRequests": 450, "timeResponse": 70, "port": 8098}
+  ],
+  "edges": [
+    {"from": "source", "to": "A", "capacity": 700, "cost": 0},
+    {"from": "source", "to": "B", "capacity": 450, "cost": 0},
+    {"from": "source", "to": "C", "capacity": 500, "cost": 0},
+    {"from": "A", "to": "SA_0", "capacity": 50, "cost": 80},
+    {"from": "A", "to": "SA_1", "capacity": 100, "cost": 60},
+    {"from": "A", "to": "SA_2", "capacity": 350, "cost": 50},
+    {"from": "A", "to": "SA_3", "capacity": 200, "cost": 80},
+    {"from": "B", "to": "SB_0", "capacity": 100, "cost": 160},
+    {"from": "B", "to": "SB_1", "capacity": 200, "cost": 150},
+    {"from": "B", "to": "SB_2", "capacity": 300, "cost": 170},
+    {"from": "B", "to": "SB_3", "capacity": 400, "cost": 180},
+    {"from": "C", "to": "SC_0", "capacity": 150, "cost": 60},
+    {"from": "C", "to": "SC_1", "capacity": 250, "cost": 70},
+    {"from": "C", "to": "SC_2", "capacity": 350, "cost": 60},
+    {"from": "C", "to": "SC_3", "capacity": 450, "cost": 70},
+    {"from": "SA_0", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SA_1", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SA_2", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SA_3", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SB_0", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SB_1", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SB_2", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SB_3", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SC_0", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SC_1", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SC_2", "to": "DB", "capacity": 1000, "cost": 100},
+    {"from": "SC_3", "to": "DB", "capacity": 1000, "cost": 100}
+  ]
+}
