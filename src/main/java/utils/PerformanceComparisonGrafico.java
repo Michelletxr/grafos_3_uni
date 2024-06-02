@@ -1,4 +1,5 @@
 package utils;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -10,11 +11,34 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
+public class PerformanceComparisonGrafico {
 
-public interface GraficUtils {
-    private static DefaultCategoryDataset readData(String fileName) {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+       // System.out.println("Digite o nome do arquivo contendo os dados do Cliente A:");
+        String fileNameA = "src/main/resources/client_A.txt";
+
+       // System.out.println("Digite o nome do arquivo contendo os dados do Cliente B:");
+        String fileNameB ="src/main/resources/client_A_rb.txt";
+
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        readData(fileNameA, "Cliente A", dataset);
+        readData(fileNameB, "Cliente B", dataset);
+
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Comparação de Desempenho de Microsserviços");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new ChartPanel(createChart(dataset)));
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+
+    private static void readData(String fileName, String clientName, DefaultCategoryDataset dataset) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -25,23 +49,22 @@ public interface GraficUtils {
                 String[] responseTimes = responseTimesStr.split(",");
 
                 double averageResponseTime = Arrays.stream(responseTimes)
-                        .mapToDouble(s -> Double.parseDouble(s.trim()))
+                        .mapToDouble(rt -> Double.parseDouble(rt.trim()))
                         .average()
                         .orElse(0.0);
 
-                dataset.addValue(averageResponseTime, "Tempo de Resposta Médio", totalRequestsStr);
+                dataset.addValue(averageResponseTime, clientName, totalRequestsStr);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dataset;
     }
 
-    private static JFreeChart createChart(DefaultCategoryDataset dataset, String clienteName) {
+    private static JFreeChart createChart(DefaultCategoryDataset dataset) {
         return ChartFactory.createLineChart(
-                "Cliente " + clienteName,
+                "Comparação de Desempenho de Microsserviços",
                 "Total de Requisições",
-                "Tempo de Resposta",
+                "Tempo de Resposta Médio (ms)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -49,15 +72,5 @@ public interface GraficUtils {
                 false
         );
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            String clienteName = "B";
-            JFrame frame = new JFrame("Gráfico de Linha");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new ChartPanel(createChart(readData("src/main/resources/client_"+clienteName+".txt"), clienteName)));
-            frame.pack();
-            frame.setVisible(true);
-        });
-    }
 }
+
